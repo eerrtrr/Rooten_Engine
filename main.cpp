@@ -1,9 +1,9 @@
-#include "Logger.hpp"
-#include "AXL.hpp"
+#include "Engine.hpp"
 
 
 int main(int argc, char const** argv){
-    Rooten::Logger::Log("Initializing Rooten Engine: %d", 0);
-
+    Rooten::Engine* engine = new Rooten::Engine("StarkOS");
+    engine->run();
+    delete engine;
     return 0;
 }
