@@ -1,10 +1,12 @@
 #define VK_USE_PLATFORM_XLIB_KHR
+#define VK_KHR_XLIB_SURFACE
 
 #include "Platform.hpp"
 #include "Engine.hpp"
 #include "AXL.hpp"
 #include "Logger.hpp"
-#include <vulkan/vulkan.h>
+#include "VulkanUtils.hpp"
+#include "VulkanRenderer.hpp"
 
 
 namespace Rooten{
@@ -22,6 +24,18 @@ namespace Rooten{
             delete this->window;
         }
     }
+
+
+    void Platform::createSurface(VkInstance instance, VkSurfaceKHR* surface){
+        VkXlibSurfaceCreateInfoKHR surfaceCreateInfo = {VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR};
+        surfaceCreateInfo.pNext = nullptr;
+        surfaceCreateInfo.flags = 0;
+        surfaceCreateInfo.dpy = window->getDisplay();
+        surfaceCreateInfo.window = window->getWindow();
+
+        VK_CHECK(vkCreateXlibSurfaceKHR(instance, &surfaceCreateInfo, nullptr, surface));
+    }
+
 
     const bool Platform::startGameLoop(){
         while(this->window->getStatus() == true){
